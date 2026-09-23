@@ -1,0 +1,14 @@
+services:
+  runtime:
+    build: .
+    image: agent-runtime:local
+    environment:
+      AGENT_RUNTIME_DB: /data/checkpoints.db
+    volumes:
+      - checkpoints:/data
+    # Default command runs the research agent; override to exercise resume:
+    #   docker compose run --rm runtime python examples/resume_demo.py
+    command: ["python", "examples/research_agent.py"]
+
+volumes:
+  checkpoints:
