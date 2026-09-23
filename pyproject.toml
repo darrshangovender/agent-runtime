@@ -1,0 +1,63 @@
+[project]
+name = "agent-runtime"
+version = "0.1.0"
+description = "Durable, checkpointed state-machine executor for LLM agents: typed graphs, loop-breaking, per-node timeouts, model fallback chains, and crash resume from SQLite."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Darrshan Govender", email = "darrshangovender@gmail.com" }]
+keywords = ["llm", "agents", "state-machine", "checkpoint", "durable", "agentic"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Framework :: AsyncIO",
+    "Framework :: Pydantic :: 2",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pydantic>=2.7",
+]
+
+[project.optional-dependencies]
+anthropic = ["anthropic>=0.40.0"]
+openai = ["openai>=1.50.0"]
+otel = ["opentelemetry-api>=1.25", "opentelemetry-sdk>=1.25"]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "pytest-cov>=4.1",
+    "ruff>=0.6",
+]
+
+[project.urls]
+Homepage = "https://github.com/darrshangovender/agent-runtime"
+Repository = "https://github.com/darrshangovender/agent-runtime"
+Issues = "https://github.com/darrshangovender/agent-runtime/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# The distribution name ("agent-runtime") does not match the import package
+# directory ("agent_runtime/"), so hatchling cannot infer what to ship.
+# Without this it aborts the build with "Unable to determine which files to
+# ship", which breaks `pip install -e .` in CI.
+[tool.hatch.build.targets.wheel]
+packages = ["agent_runtime"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q"
+pythonpath = ["."]
+asyncio_mode = "auto"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
